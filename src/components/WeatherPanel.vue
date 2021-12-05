@@ -1,7 +1,12 @@
 <template>
   <div class="hello">
-    <div>Погода</div>
-    <pre>{{ weather }}</pre>
+    <div v-if="weather !== null">
+      <div>{{ weather.name }}</div>
+      <div>{{formatTemperature(weather.main.temp)}}</div>
+      <div>Ощущается как {{formatTemperature(weather.main.feels_like)}}</div>
+      <div>{{weather.weather[0].description}}</div>
+      <div>Скорость ветра {{weather.wind.speed}} м/с</div>
+    </div>
   </div>
 </template>
 
@@ -14,10 +19,19 @@ export default {
   setup() {
     const store = useStore();
     const weather = computed(() => store.state.weather);
+    const formatTemperature = (temp)=>{
+      if (temp>0) {
+        return `+${temp}`
+      }
+    };
     onMounted(() => {
-      store.dispatch("getWeather");
+      store.dispatch("getWeather")
+      setInterval(() => store.dispatch("getWeather"), 3000000);
     });
-    return {weather}
+    return {
+      weather,
+      formatTemperature
+    }
   }
 }
 </script>
