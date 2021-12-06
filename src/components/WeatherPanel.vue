@@ -54,7 +54,7 @@ export default {
     });
     onMounted(() => {
       store.dispatch("getWeather")
-      setInterval(() => store.dispatch("getWeather"), 3000000);
+      setInterval(() => store.dispatch("getWeather"), 300000);
     });
     return {
       weather,
