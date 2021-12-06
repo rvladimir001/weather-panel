@@ -44,8 +44,14 @@ export default {
       } else if (weather.value.main.temp>25){
         return {color:"#ff0000"};
       }
+      return {color:"#000000"};
     })
-    const iconRef = computed(() => `http://openweathermap.org/img/wn/${weather.value.weather[0].icon}@2x.png`);
+    const iconRef = computed(() => {
+      if (weather.value !== null) {
+        return `http://openweathermap.org/img/wn/${weather.value.weather[0].icon}@2x.png`
+      }
+      return `http://openweathermap.org/img/wn/01d@2x.png`
+    });
     onMounted(() => {
       store.dispatch("getWeather")
       setInterval(() => store.dispatch("getWeather"), 3000000);
